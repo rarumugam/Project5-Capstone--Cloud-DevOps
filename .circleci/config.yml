@@ -68,7 +68,53 @@ jobs:
             docker login -u "arumdev" -p "Srikanda1*"
             dockerpath=$IMAGE_NAME:$IMAGE_VERSION
             docker push $dockerpath 
-            
+  
+  
+  cluster_deploy:
+  
+    docker:
+      - image: python:3.7.3-stretch
+    
+    steps:
+      - checkout
+      - run:
+          name: Install awscli
+          command: |
+            pip3 install awscli
+  
+      - run:
+          name: Install aws-iam-authenticator
+          command: |
+            curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+            chmod +x ./aws-iam-authenticator
+            mv ./aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+  
+      - run:
+          name: Install kubectl
+          command: |
+            curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mv ./kubectl /usr/local/bin/kubectl
+           
+      - run:
+          name: Install eksctl
+          command: |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            mv /tmp/eksctl /usr/local/bin
+           
+      - run:
+          name: Create a EKS cluster
+          command: |
+            aws cloudformation list-exports > cluster.txt
+            cat cluster.txt
+            if [ $(grep -i "eksctl-udaproject5" cluster.txt | wc -l) -ge 1 ]
+              then
+              echo "already EKS Cluster exists in environment"
+              else
+              echo "creating the EKS Cluster"
+              eksctl create cluster --name $EKSCLUSTER_NAME --version 1.19 --region $AWS_DEFAULT_REGION --zones us-east-1a,us-east-1b,us-east-1c --nodegroup-name eksudanodegrp --node-type t2.micro --nodes-min 2 --nodes-max 4 --managed
+            fi
+                      
   
   
             
@@ -80,3 +126,5 @@ workflows:
       - lint_docker
       - build_docker:
           requires: [lint_docker]
+      - cluster_deploy:
+          requires: [build_docker]
