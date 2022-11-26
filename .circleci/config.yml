@@ -4,7 +4,7 @@
 #
 version: 2.1
 jobs:
-  linting_docker:
+  lint_docker:
     docker:
     # Use the same Docker base as the project
       - image: python:3.7.3-stretch
@@ -17,9 +17,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1.0-dependencies-{{ checksum "requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - v1.0-dependencies-
 
       - run:
           name: install dependencies
@@ -31,14 +31,45 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1.0-dependencies-{{ checksum "requirements.txt" }}
 
       # run lint!
       - run:
           name: run lint
           command: |
             . capstonepjt/bin/activate
-            make lint           
+            make lint    
+
+  # building the docker application
+  build_docker:
+    environment:
+      IMAGE_VERSION:  v1.1
+      DHUB_USER:arumdev
+      DHUB_PASS:Srikanda1*
+      IMAGE_NAME:capstone
+    docker:
+      - image: circleci/golang:1.15
+     
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      # build and push Docker image
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $IMAGE_NAME:$IMAGE_VERSION .
+      - run:
+          name: List Docker Image
+          command: |
+            docker image ls
+      - run:
+          name: Push Docker Image
+          command: |
+            #docker login -u "$DHUB_USER" -p "$DHUB_PASS"
+            docker login
+            dockerpath=$IMAGE_NAME:$IMAGE_VERSION
+            docker push $dockerpath       
             
   
   
@@ -48,5 +79,6 @@ workflows:
   version:  2.1
   default:
     jobs:
-      - linting_docker
-   
+      - lint_docker
+      - build_docker:
+          requires: [lint_docker]
