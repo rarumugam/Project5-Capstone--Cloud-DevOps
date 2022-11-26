@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build --tag=$IMAGE_NAME:$IMAGE_VERSION .
+            docker build --tag=$DOCKER_IMAGE:$IMAGE_VERSION .
       - run:
           name: List Docker Image
           command: |
@@ -66,7 +66,7 @@ jobs:
           name: Push Docker Image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            dockerpath=$IMAGE_NAME:$IMAGE_VERSION
+            dockerpath=$DOCKER_IMAGE:$IMAGE_VERSION
             docker push $dockerpath 
   
   
