@@ -44,10 +44,8 @@ jobs:
   build_docker:
     environment:
       IMAGE_VERSION:  v1.1
-      DHUB_USER: arumdev
-      DHUB_PASS: Srikanda1*
       IMAGE_NAME: capstone
-      DHUB_ID : arumdev
+   
     docker:
       - image: circleci/golang:1.15
      
@@ -68,8 +66,8 @@ jobs:
           name: Push Docker Image
           command: |
             docker login -u "$DHUB_USER" -p "$DHUB_PASS"
-            dockerpath=$IMAGE_NAME:$IMAGE_VERSION
-           # docker push $dockerpath 
+            dockerpath = $IMAGE_NAME:$IMAGE_VERSION
+            docker push $dockerpath 
             
   
   
