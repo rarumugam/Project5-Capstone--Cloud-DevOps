@@ -112,7 +112,7 @@ jobs:
               echo "already EKS Cluster exists in environment"
               else
               echo "creating the EKS Cluster"
-              eksctl create cluster --name $EKSCLUSTER_NAME --version 1.19 --region $AWS_DEFAULT_REGION --zones us-east-1a,us-east-1b,us-east-1c --nodegroup-name eksudanodegrp --node-type t2.micro --nodes-min 2 --nodes-max 4 --managed
+              eksctl create cluster --name $EKSCLUSTER_NAME --version 1.24 --region $AWS_DEFAULT_REGION --zones us-east-1a,us-east-1b,us-east-1c --nodegroup-name eksudanodegrp --node-type t2.micro --nodes-min 2 --nodes-max 4 --managed
             fi
                       
   
