@@ -68,7 +68,7 @@ jobs:
           name: Push Docker Image
           command: |
             docker login -u "$DHUB_USER" -p "$DHUB_PASS"
-            dockerpath=$IMAGE_NAME:$IMAGE_VERSION
+            dockerpath=$DHUB_ID/$IMAGE_NAME:$IMAGE_VERSION
             docker push $dockerpath 
             
   
