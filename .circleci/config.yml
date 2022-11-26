@@ -66,7 +66,7 @@ jobs:
           name: Push Docker Image
           command: |
             docker login -u "arumdev" -p "Srikanda1*"
-            dockerpath = $IMAGE_NAME:$IMAGE_VERSION
+            dockerpath=$IMAGE_NAME:$IMAGE_VERSION
             docker push $dockerpath 
             
   
