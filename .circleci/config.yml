@@ -69,7 +69,7 @@ jobs:
           command: |
             docker login -u "$DHUB_USER" -p "$DHUB_PASS"
             dockerpath=$IMAGE_NAME:$IMAGE_VERSION
-            docker push $dockerpath 
+           # docker push $dockerpath 
             
   
   
