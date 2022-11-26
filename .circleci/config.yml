@@ -44,7 +44,7 @@ jobs:
   build_docker:
     environment:
       IMAGE_VERSION:  v1.1
-      IMAGE_NAME: arumdev/capstone
+      #IMAGE_NAME: arumdev/capstone
    
     docker:
       - image: circleci/golang:1.15
@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker login -u "arumdev" -p "Srikanda1*"
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             dockerpath=$IMAGE_NAME:$IMAGE_VERSION
             docker push $dockerpath 
   
