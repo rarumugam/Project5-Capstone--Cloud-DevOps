@@ -152,11 +152,11 @@ jobs:
           name: deploy the docker container in aws eks cluster
           command: |
             aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKSCLUSTER_NAME
-            kubectl apply -f eks-appdeploy.yml
+            kubectl apply -f appdeploy.yml
             kubectl get nodes
             kubectl get deployment
             kubectl get pod -o wide
-            kubectl apply -f eks-appservices.yml
+            kubectl apply -f appservice.yml
             kubectl get services
             kubectl rollout status deployments/udaproject5
             kubectl describe svc udaproject5
