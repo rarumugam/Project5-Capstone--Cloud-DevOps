@@ -158,7 +158,7 @@ jobs:
             kubectl get pod -o wide
             kubectl apply -f appservice.yml
             kubectl get services
-            kubectl rollout status deployments/udaproject5
+            kubectl rollout status deployments/capstone
             kubectl describe svc udaproject5
             
             
