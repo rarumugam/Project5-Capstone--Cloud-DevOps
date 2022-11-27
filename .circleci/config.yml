@@ -107,7 +107,7 @@ jobs:
           command: |
             aws cloudformation list-exports > cluster.txt
             cat cluster.txt
-            if [ $(grep -i "eksctl-udaproject5" cluster.txt | wc -l) -ge 1 ]
+            if [ $(grep -i "eksctl-capstone" cluster.txt | wc -l) -ge 1 ]
               then
               echo "already EKS Cluster exists in environment"
               else
@@ -159,7 +159,7 @@ jobs:
             kubectl apply -f appservice.yml
             kubectl get services
             kubectl rollout status deployments/capstone
-            kubectl describe svc udaproject5
+            kubectl describe svc capstone
             
             
 
