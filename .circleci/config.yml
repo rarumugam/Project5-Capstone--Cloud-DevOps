@@ -172,5 +172,5 @@ workflows:
           requires: [lint_docker]
       - cluster_deploy:
           requires: [build_docker]
-     # - app_deploy:
-     #     requires: [cluster_deploy]
+      - app_deploy:
+          requires: [cluster_deploy]
