@@ -43,7 +43,7 @@ jobs:
   # building the docker application
   build_docker:
     environment:
-      IMAGE_VERSION:  v1.1
+      IMAGE_VERSION:  v1.2
       #IMAGE_NAME: arumdev/capstone
    
     docker:
@@ -172,5 +172,5 @@ workflows:
           requires: [lint_docker]
       - cluster_deploy:
           requires: [build_docker]
-      - app_deploy:
-          requires: [cluster_deploy]
+     # - app_deploy:
+     #     requires: [cluster_deploy]
