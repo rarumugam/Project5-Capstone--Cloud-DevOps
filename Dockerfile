@@ -13,8 +13,7 @@ COPY . app.py /capstoneapp/
 # hadolint ignore=DL3013
 RUN pip install --upgrade --no-cache-dir pip &&\
     pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
-    
-@#adding this for lint failure
+
 
 ## Step 4:
 # Expose port 80
